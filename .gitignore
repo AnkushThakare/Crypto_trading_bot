@@ -1,0 +1,19 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+.venv/
+env/
+*.egg-info/
+
+# dotenv environment variables
+.env
+
+# IDE & OS files
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
