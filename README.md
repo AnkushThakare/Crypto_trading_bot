@@ -18,5 +18,5 @@ A command-line bot to automate crypto trading on Binance **Futures Testnet**, su
 1. Clone the repository
 
 
-git clone https://github.com/AnkushThakare/crypto-trading-bot.git
+git clone https://github.com/AnkushThakare/crypto_trading_bot.git
 cd crypto-trading-bot
