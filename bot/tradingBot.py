@@ -7,14 +7,39 @@ from binance.enums import (
     TIME_IN_FORCE_GTC
 )
 import logging
+import time
+
+
 
 class TradingBot:
     def __init__(self, api_key: str, api_secret: str, use_testnet: bool = True):
         self.client = Client(api_key, api_secret)
-        if use_testnet:
-            self.client.FUTURES_URL = 'https://testnet.binancefuture.com/fapi'
 
-    def place_order(self, symbol: str, side: str, order_type: str, quantity: float, limit_price: float = None):
+        if use_testnet:
+            self.client.FUTURES_URL = "https://testnet.binancefuture.com/fapi"
+            self.client.API_URL = "https://testnet.binancefuture.com"
+        print("✅ Connected to Binance Futures Testnet.")
+
+    def _get_server_time_offset(self):
+        try:
+            server_time = self.client.get_server_time()['serverTime']
+            local_time = int(round(time.time() * 1000))
+            return server_time - local_time
+        except Exception as e:
+            logging.error("Failed to fetch server time: %s", str(e))
+            return 0
+
+    def _get_server_time_offset(self):
+        try:
+            server_time = self.client.get_server_time()['serverTime']
+            local_time = int(round(time.time() * 1000))
+            return server_time - local_time
+        except Exception as e:
+            logging.error("Failed to fetch server time: %s", str(e))
+            return 0
+
+    def place_order(self, symbol: str, side: str, order_type: str, quantity: float,
+                    limit_price: float = None, stop_price: float = None):
         try:
             side_enum = SIDE_BUY if side.upper() == "BUY" else SIDE_SELL
 
@@ -38,10 +63,9 @@ class TradingBot:
                     timeInForce=TIME_IN_FORCE_GTC
                 )
 
-            elif order_type.upper() == "STOP_LIMIT":
-                if limit_price is None:
-                    raise ValueError("Price must be specified for STOP-LIMIT orders")
-                stop_price = float(limit_price) * 0.995
+            elif order_type.upper() == "STOP_MARKET":
+                if stop_price is None:
+                    raise ValueError("Stop price must be specified for STOP_MARKET orders")
                 order = self.client.futures_create_order(
                     symbol=symbol,
                     side=side_enum,
