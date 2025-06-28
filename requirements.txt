@@ -1,2 +1,14 @@
+# Binance API client (specific version)
 python-binance==1.0.29
-python-dotenv
+
+# Environment variable management
+python-dotenv==1.0.1
+
+# CLI interaction
+questionary==2.0.1
+
+# Date and time utilities
+python-dateutil==2.8.2
+
+# (Optional but recommended) Better logging
+colorlog==6.8.2
